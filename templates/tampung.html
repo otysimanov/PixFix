@@ -1,0 +1,126 @@
+
+<section id="start">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <img src="/img/logo-white.png" alt="" width="300px">
+                <br>
+                <button class="btn btn-outline-light btn-lg" id="mulai">MULAI</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="pembayaran">
+    <div class="container" >
+        <div class="row text-center p-3 bg-light shadow">
+            <div class="col-12">
+                <h1 class="display-1">Photo Booth</h1>
+                <p class="lead">Silahkan Klik Di bawah untuk melakukan pembayaran</p>
+                <div class="kotak mx-auto">
+                    <form>
+                        <input class="form-control mb-2 input" name="nama_lengkap" id="nama_lengkap" type="text"
+                        placeholder="Nama Lengkap" autocomplete="off" required>
+                        <input class="form-control mb-2 input" name="email" id="email" type="email" placeholder="Email"
+                            autocomplete="off" required>
+
+                        <button class="btn btn-outline-primary btn-lg" type="submit">Bayar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    $('#coba').click(function() {
+        var get_data = {
+            nama: nama,
+            email: email
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('process') }}",
+            data: get_data,
+            success : function(data) {
+                console.log('opening snap popup:');
+
+        // Open Snap popup with defined callbacks.
+                snap.pay(data.token, {
+                    onSuccess: function (result) {
+                        console.log("SUCCESS", result);
+                        window.location.href = "http://localhost:5005/berhasil";
+                        // alert("Payment accepted \r\n" + JSON.stringify(result));
+                    },
+                    onPending: function (result) {
+                        console.log("Payment pending", result);
+
+                        // alert("Payment pending \r\n" + JSON.stringify(result));
+                    },
+                    onError: function () {
+                        console.log("Payment error");
+                        alert('Pembayaran Error')
+                    }
+                });
+                    
+            }
+        })
+    })
+
+    function checklength(i) {
+        'use strict';
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    
+    var minutes, seconds, count, counter, timer;
+    count = 600; //seconds
+    counter = setInterval(timer, 1000);
+    
+    function timer() {
+        'use strict';
+        count = count - 1;
+        minutes = checklength(Math.floor(count / 60));
+        seconds = checklength(count - minutes * 60);
+        if (count < 0) {
+            clearInterval(counter);
+            return;
+        }
+        document.getElementById("timer").innerHTML = minutes + ':' + seconds + ' ';
+        if (count === 0) {
+            location.reload();
+        }
+    }
+
+    function checklength(i) {
+        'use strict';
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    
+    var minutes, seconds, count, counter, timer;
+    count = 100; //seconds
+    counter = setInterval(timer, 1000);
+    
+    function timer() {
+        'use strict';
+        count = count - 1;
+        minutes = checklength(Math.floor(count / 60));
+        seconds = checklength(count - minutes * 60);
+        if (count < 0) {
+            clearInterval(counter);
+            return;
+        }
+        document.getElementById("timer").innerHTML = 'Next refresh in ' + minutes + ':' + seconds + ' ';
+        if (count === 0) {
+            location.reload();
+        }
+    }
+</script>

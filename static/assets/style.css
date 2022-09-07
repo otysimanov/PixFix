@@ -1,0 +1,20 @@
+.kotak {
+    width: 50%;
+}
+
+.waktu {
+    width: 100px;
+    height: 50px;
+    background-color: red;
+    color: white;
+    text-align: center;
+
+}
+
+#timer {
+    margin: 0px auto;
+}
+
+body {
+    background-color: darkblue;
+}
